@@ -8,6 +8,6 @@ mergeref.sh is used to add the newly made plink files to an existing reference p
 
 ### SCRIPTS FOR GETTING BREED SPECIFIC SNPS <br />
 getSNPs.sh is used to find the breed-specific SNPs and needs the reference population and a cluster file as arguments. <br />
-getS.R and getHM.R are helper files for getSNPs.sh which help to generate the distribution plots and heatmaps using breed-specific SNPs. <br />
++ getS.R and getHM.R are helper files for getSNPs.sh which help to generate the distribution plots and heatmaps using breed-specific SNPs. <br />
 
 
