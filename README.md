@@ -1,9 +1,9 @@
 
 ### SCRIPTS FOR EXPANDING THE REFERENCE POPULATION <br />
 loop.sh was used to submit jobs to the UCLA Hoffman cluster <br />
-+ it takes a list of forward read fastq files with suffix _1.fastq.gz <br />
-makebcf.sh performs bwa alignment <br />
-makebcf2.sh maps and identifies variants, as well as to generate PLINK files for merging <br />
++ it takes a list of forward read fastq files with suffix _1.fastq.gz 
++ makebcf.sh performs bwa alignment 
++ makebcf2.sh maps and identifies variants, as well as to generate PLINK files for merging
 mergeref.sh is used to add the newly made plink files to an existing reference population <br />
 + it takes a list of PLINK prefixes to merge with the reference population identified within the script <br />
 
