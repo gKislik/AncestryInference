@@ -12,4 +12,10 @@ mergeref.sh is used to add the newly made plink files to an existing reference p
 getSNPs.sh is used to find the breed-specific SNPs and needs the reference population and a cluster file as arguments. <br />
 + getS.R and getHM.R are helper files for getSNPs.sh which help to generate the distribution plots and heatmaps using breed-specific SNPs. <br />
 
+### SCRIPT FOR GENERATING SYNTHETIC SAMPLES <br />
+make-synthetic-plink.sh is used and takes arguments N (desired number of samples to choose), clust (a clusters file), and id (any string) <br />
 
+### SCRIPTS FOR ANALYSIS
++ synthfst-new-FINALPROC.sh and fst-FINALPROC.sh are used for submitting jobs, similar to loop.sh. They take a text file with samples on each line. 
++ proc1-pca-fst.sh is used by fst-FINALPROC.sh to analyze the non-synthetic samples
++ proc1-pca-newsynthvcf-fst.sh is used by synthfst-new-FINALPROC.sh to analyze synthetic PLINK samples made by make-synthetic-plink.sh
