@@ -12,10 +12,10 @@ library(irr)
 #beginning of commands to actually generate figures 
 #after filtering for breed-specific SNPs, FST and removing uninformative samples
 setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')
-Qhat <- read.table("filt-bcftools-ref-redone.imputedQhat.txt")
-freq <- read.table("head_freq4.txt",header=T)
+Qhat <- read.table("filt-bcftools-ref-redone.imputed.filteredQhat.txt")
+freq <- read.table("hf.txt",header=T)
 rownames(Qhat) <- freq$CLST
-fam <- read.table("filt-bcftools-ref-redone.imputed.fam")
+fam <- read.table("filt-bcftools-ref-redone.imputed.filtered.fam")
 clust <- read.table("used-clust.txt")
 twocolclust <- clust[,c(1,3)]
 colnames(twocolclust) <- c('sample','breed')
@@ -46,9 +46,9 @@ ftotal_plot_breed <- ggplot(fulltotal, aes(x=sample,y=Proportion,fill=Breed,grou
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1,size=12))+
   scale_x_discrete(limits=clust$V1,label=newlabs)
 ftotal_plot_breed
-ggsave("filt-bcftools-ref-redone.imputedQhatvTruth-Breed.png",width=24,height=6,units='in')
+ggsave("filt-bcftools-ref-redone.imputed.filteredQhatvTruth-Breed.png",width=24,height=6,units='in')
 ftotal_plot
-ggsave("filt-bcftools-ref-redone.imputedQhatvTruth.png",width=24,height=6,units='in')
+ggsave("filt-bcftools-ref-redone.imputed.filteredQhatvTruth.png",width=24,height=6,units='in')
 
 
 ### bootstrapping + differences
@@ -75,12 +75,12 @@ for(i in seq(1,100)){
 }
 
 setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')
-clust <- read.table("modsixclust.txt")
+clust <- read.table("used-clust.txt")
 twocolclust <- clust[,c(1,3)]
 colnames(twocolclust) <- c('sample','Breed')
 
 icc_res <- data.frame(sample=as.character(), icc=as.numeric())
-sd_res <- data.frame(matrix(nrow=49,ncol = 0))
+sd_res <- data.frame(matrix(nrow=48,ncol = 0))
 for(samp in unique(all_iters$sample)){
   sdf <- all_iters[all_iters$sample==samp,]
   sdf_w <- pivot_wider(sdf ,values_from = Proportion,names_from = iter)
@@ -119,10 +119,10 @@ for (samp in unique(fulltotal$sample)){
 
 
 stats_df <- merge(stats_df, sd_l_b,by='sample')
-write.table(stats_df,"mod-filt-ref-SRR8614076-0p03fst-SCOPEQhat-ReferenceRecovery.txt",row.names = F)
+write.table(stats_df,"filt-bcftools-ref-redone.imputed.filteredQhat-ReferenceRecovery.txt",row.names = F)
 
 differences <- ggplot(stats_df, aes(x=reorder(sample,desc(Correct)),y=Correct,fill=Breed))+geom_bar(stat='identity')+
-  theme_bw()+geom_errorbar(aes(ymin=Correct-sd, ymax=Correct+sd), width=.1,
+  theme_bw()+geom_errorbar(aes(ymin=Correct-sd, ymax=pmin(1,Correct+sd)), width=.1,
                            position=position_dodge(.9))+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1,size=8),
         panel.background = element_rect(fill = "white")) +labs(x='sample')+
@@ -131,8 +131,8 @@ ggsave('Differences.png',differences,width = 16,height=8,units = 'in')
 
 
 # 1-IBS
-dist <- read.table("mod-filt-ref-SRR8614076-fst0p03-dist.mdist") 
-IDs_dist <- read.table("mod-filt-ref-SRR8614076-fst0p03-dist.mdist.id")
+dist <- read.table("filt-bcftools-ref-redone.imputed.filtered.mdist") 
+IDs_dist <- read.table("filt-bcftools-ref-redone.imputed.filtered.mdist.id")
 # IBS
 #dist <- read.table("better-filt-ref-SRR8614076-0p03fst-dist.mibs")
 #IDs_dist <- read.table("better-filt-ref-SRR8614076-0p03fst-dist.mibs.id")
@@ -156,9 +156,9 @@ updp_breed_treeplot <- p %<+% twocolclust + geom_tiplab(aes(label=breed,color=fa
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),
         axis.text.y=element_blank(),axis.ticks.y=element_blank(),legend.position = "none")
 updp_treeplot
-ggsave("mod-filt-ref-SRR8614076-fst0p03-phylocircle-1mIBS.png",height = 10,width = 10,units = 'in',plot = updp_treeplot)
+ggsave("filt-bcftools-ref-redone.imputed.filtered-phylocircle-1mIBS.png",height = 10,width = 10,units = 'in',plot = updp_treeplot)
 updp_breed_treeplot
-ggsave("mod-filt-ref-SRR8614076-fst0p03-phylocircle-breed-1mIBS.png", height = 10, width = 10, units= 'in',plot=updp_breed_treeplot)
+ggsave("filt-bcftools-ref-redone.imputed.filtered-phylocircle-breed-1mIBS.png", height = 10, width = 10, units= 'in',plot=updp_breed_treeplot)
 
 
 # Using Plink2 Hudson FST
@@ -184,8 +184,8 @@ ggsave("mod-filt-ref-SRR8614076-fst0p03-phylocircle-breed-1mIBS.png", height = 1
 
 #rel <- read.table("better-filt-ref-SRR8614076-0p03fst-rel.rel")
 #rel_id <- read.table("better-filt-ref-SRR8614076-0p03fst-rel.rel.id")
-rel <- read.table("mod-filt-ref-SRR8614076-fst0p03-dist.mdist") 
-rel_id <- read.table("mod-filt-ref-SRR8614076-fst0p03-dist.mdist.id")
+rel <- read.table("filt-bcftools-ref-redone.imputed.filtered.mdist") 
+rel_id <- read.table("filt-bcftools-ref-redone.imputed.filtered.mdist.id")
 
 rel_umap <- as.data.frame(umap2(rel))
 colnames(rel_umap) <- c("Component1","Component2")
@@ -197,17 +197,17 @@ UMAP_plot <- ggplot(rel_umap, aes(x=Component1, y=Component2, color=breed,label=
   geom_point() +theme_bw()+ theme(legend.position = 'none') +#xlim(-50,50)+ylim(-45,45)+
   geom_text_repel(show.legend = F, data = distinct(rel_umap,breed,.keep_all = TRUE),force_pull = 0.01,force = 20,max.overlaps = 100,max.iter = 1000)
 UMAP_plot
-ggsave("mod-filt-ref-SRR8614076-fst0p03-UMAP-text.png",height = 9,width = 12,units = 'in',plot = UMAP_plot)
+ggsave("filt-bcftools-ref-redone.imputed.filtered-UMAP-text.png",height = 9,width = 12,units = 'in',plot = UMAP_plot)
 
 
 #distribution violin plots
-setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\Dist\\mod\\eqdist')
-distfiles <- list.files(path = "C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\Dist\\mod", pattern="*-pre2.txt*", full.names = FALSE, no.. = TRUE)
+setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')
+distfiles <- list.files(path = "setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')", pattern="*-pre2.txt*", full.names = FALSE, no.. = TRUE)
 
-distances <- data.frame(matrix(NA, nrow = 3000, ncol = 0))
+distances <- data.frame(matrix(NA, nrow = 2500, ncol = 0))
 for(file in distfiles){
   temp <- read.table(file, header=F)[,5]
-  length(temp) <- 3000
+  length(temp) <- 2500
   distances[,file] <- as.numeric(temp)
 }
 distances$temp <- 1

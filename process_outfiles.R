@@ -12,14 +12,14 @@ library(plyr)
 library(ggrepel)
 library(Metrics)
 setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')
-eigenvec <- read.table("mod-filt-ref-SRR8614076-fst0p03-pca.eigenvec")
+eigenvec <- read.table("filt-bcftools-ref-redone.imputed.filtered.eigenvec")
 files <- list.files(path = "C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\synth", pattern="*out.txt*", full.names = FALSE, no.. = TRUE)
 highCovfiles <- list.files(path = "C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\out_highCoverage", pattern="*out.txt*", full.names = FALSE, no.. = TRUE)
 lowCovfiles <- list.files(path = "C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\out_lowCoverage", pattern="*out.txt*", full.names = FALSE, no.. = TRUE)
 downSamplingfiles <- list.files(path="C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\downsampled",pattern="*out.txt",full.names=FALSE,no.. = TRUE)
-freq <- read.table('head_freq3.txt',header = T)
+freq <- read.table('hf.txt',header = T)
 clust <- freq$CLST
-finclusters <- read.table("modsixclust.txt")
+finclusters <- read.table("used-clust.txt")
 #truth <- read.csv("C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\new_truth_matrix.csv",header=F)
 
 makedf <- function(file_list,stats_name){
@@ -27,13 +27,14 @@ makedf <- function(file_list,stats_name){
   colnames(est_df) <- 'Breed'
   stats_df <- data.frame(RMSE=as.numeric(),PearsonR=as.numeric(), sample=as.character())
   for(file in file_list){
-    x <- read.table(file)
-    colnames(x) <- c('Breed','Estimate')
+    x <- read.table(file,header = T)
+    colnames(x) <- c('Estimate')
+    x$Breed <- rownames(x)
     name <- strsplit(file,"_out.txt")[[1]]
     print(name[[1]])
     #print(truth[truth$V1==name,])
     props <- unlist(str_split(name,"X"))
-    truthvec <- as.data.frame(cbind(clust,rep(0,49)))
+    truthvec <- as.data.frame(cbind(clust,rep(0,48)))
     truthvec[,2] <- as.numeric(truthvec[,2])
     colnames(truthvec) <- c('Breed','Truth')
     print(props)
@@ -91,28 +92,29 @@ covplot <- ggplot(coverage_df, aes(x=factor(samp,level=highCov_stats$sample[orde
   theme_bw()+facet_wrap(~group+Coverage,nrow=2)+xlab('sample')+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1,size=11))
 covplot
 
-setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')
+setwd('/qmi_home/kislikgr/')
 ggsave("synthplot.png",height = 9,width = 12,units = 'in',plot = synthplot)
 ggsave("coverageplot.png",height = 9,width = 12,units = 'in',plot = covplot)
 
 #for downsampling experiment
-setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\downsampled')
+setwd('/qmi_home/kislikgr/downsampled')
 downsampled_df <- makedf(downSamplingfiles,'downSampling_stats')
 downsampled_df$samp <- mapvalues(downsampled_df$samp,from = 
-                                   c("GoldenRetriever1000X","GoldenRetrieverSeventyFiveP1000X",
-                                     "GoldenRetrieverFiftyP1000X",
-                                     "GoldenRetrieverTwentyFiveP1000X",
-                                     "GoldenRetrieverTenP1000X" ,"GoldenRetrieverFiveP1000X",
-                                     "GoldenRetrieverOneP1000X","GoldenRetrieverPointOneP1000X"
-                                     ),
-                                 to = c("100% (40x)","75% (30x)","50% (20x)",
-                                        "25% (10x)","10% (4x)",
-                                        "5% (2x)","1% (0.4x)","0.1% (0.04x)"))
+                                   c("Poodle402XMiniaturePoodle349XLabradorRetriever104XCockerS145",
+                                     "Poodle402XMiniaturePoodle349XLabradorRetriever104XCockerSp145",
+                                     "Poodle402XMiniaturePoodle349XLabradorRetriever104XCockerSpa145",
+                                     "Poodle402XMiniaturePoodle349XLabradorRetriever104XCockerSpan145",
+                                     "Poodle402XMiniaturePoodle349XLabradorRetriever104XCockerSpani145",
+                                     "Poodle402XMiniaturePoodle349XLabradorRetriever104XCockerSpanie145"
+                                   ),
+                                 to = c("100% (2.5x)","75% (1.875x)","50% (1.25x)",
+                                        "25% (0.625x)","10% (.25x)",
+                                        "5% (.125x)"))
 downsamp_plot <- ggplot(downsampled_df, aes(x=samp,y=proportion,fill=Breed))+geom_bar(position='stack',stat='identity')+theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ ggtitle("Purebred Golden Retriever Downampling Experiment") +
-  scale_x_discrete(limits=c("100% (40x)","75% (30x)","50% (20x)",
-                            "25% (10x)","10% (4x)",
-                            "5% (2x)","1% (0.4x)","0.1% (0.04x)"))
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ ggtitle("Downampling Experiment with Mixed-Breed Sample") +
+  scale_x_discrete(limits=c("100% (2.5x)","75% (1.875x)","50% (1.25x)",
+                            "25% (0.625x)","10% (.25x)",
+                            "5% (.125x)"))
 downsamp_plot
 setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')
 ggsave("downsampledplot.png",height = 9,width = 12,units = 'in',plot = downsamp_plot)
