@@ -5,6 +5,8 @@ loop.sh was used to submit jobs to the UCLA Hoffman cluster <br />
 + makebcf.sh performs bwa alignment 
 + makebcf2.sh maps and identifies variants, as well as to generate PLINK files for merging <br />
 
+cleannbcf.sh is used to normalize bcf.gz files and set stable variant ids <br />
+
 mergebcfs_with_bcftools_final.sh is used to merge bcf.gz files <br />
 + it takes a list of bcf.gz files to merge in one step (change within script) <br />
 + missing genotypes stay missing (-0 tag not used) <br />
@@ -20,3 +22,5 @@ make-synthetic-bcf.sh is used and takes arguments N (desired number of samples t
 + synthfst-new-FINALPROC.sh and fst-FINALPROC.sh are used for submitting jobs, similar to loop.sh. They take a text file with samples on each line. 
 + proc1-pca-fst.sh is used by fst-FINALPROC.sh to analyze the non-synthetic samples
 + proc1-pca-newsynthvcf-fst.sh is used by synthfst-new-FINALPROC.sh to analyze synthetic PLINK samples made by make-synthetic-plink.sh
++ bootSCOPE.sh and bootSCOPE_helper.sh were used to bootstrap standard deviations for the prediction of breeds within the reference population
++ bootSCOPE_helper.sh does most of the heavy lifting, bootSCOPE.sh is used for job submission. 
