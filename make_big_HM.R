@@ -1,17 +1,21 @@
 library(ggplot2)
 #library(biganalytics)
 library(tidyr)
-
+library(pheatmap)
 
 set.seed(7)
 
-freqs <- read.table("filt-ref-SRR8614076-0p03fst-freq.frq.strat",header = T)
+freqs <- read.table("filt-bcftools-ref-redone.imputed.filtered.frq.strat",header = T)
 freqs_1 <- freqs[,c(2,3,6)]
 freqs_1w <- data.frame(pivot_wider(freqs_1,names_from=CLST,values_from=MAF))
 rownames(freqs_1w) <- freqs_1w[,1]
 freqs_1w <- freqs_1w[,-c(1)]
 
-pheatmap(scale(freqs_1w), kmeans=50, filename="filt-ref-SRR8614076-0p03fst-HM.png",fontsize=8)
+pheatmap(scale(freqs_1w), kmeans=48, filename="filt-bcftools-ref-redone.imputed.filtered-HM.png",fontsize=8)
+
+pheatmap(freqs_1w, kmeans=48, filename="filt-bcftools-ref-redone.imputed.filtered-HM-US.png",fontsize=8)
+
+###### not in use ######
 
 #pheatmap(scale(freqs_1w), kmeans=50,treeheight_row = 0, treeheight_col = 0,filename="filt-ref-SRR8614076-0p03fst-HM.png",fontsize=8)
 
