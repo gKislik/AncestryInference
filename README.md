@@ -19,8 +19,9 @@ getSNPs.sh is used to find the breed-specific SNPs and needs the reference popul
 make-synthetic-bcf.sh is used and takes arguments N (desired number of samples to choose), clust (a clusters file), and id (use aaaa, this just serves as a placeholder for analysis after merging) <br />
 
 ### SCRIPTS FOR ANALYSIS
-+ synthfst-new-FINALPROC.sh and fst-FINALPROC.sh are used for submitting jobs, similar to loop.sh. They take a text file with samples on each line. 
-+ proc1-pca-fst.sh is used by fst-FINALPROC.sh to analyze the non-synthetic samples
-+ proc1-pca-newsynthvcf-fst.sh is used by synthfst-new-FINALPROC.sh to analyze synthetic PLINK samples made by make-synthetic-plink.sh
-+ bootSCOPE.sh and bootSCOPE_helper.sh were used to bootstrap standard deviations for the prediction of breeds within the reference population
+synth-FINALPROC.sh and fst-FINALPROC-final.sh are used for submitting jobs, similar to loop.sh. 
+They take a text file with samples (full path to forward read of sample fastq - even if you're starting from bcf like for synthetic files, just change .bcf.gz to _1.fastq.gz) on each line. 
++ proc1-pca-mergefirst-final.sh is used by fst-FINALPROC-final.sh to analyze the non-synthetic samples
++ proc1-pca-synth-final.sh is used by synth-FINALPROC.sh to analyze synthetic bcf samples made by make-synthetic-bcf.sh
+bootSCOPE.sh and bootSCOPE_helper.sh were used to bootstrap standard deviations for the prediction of breeds within the reference population
 + bootSCOPE_helper.sh does most of the heavy lifting, bootSCOPE.sh is used for job submission. 
