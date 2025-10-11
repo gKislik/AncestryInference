@@ -37,14 +37,14 @@ fulltotal <- rbind(truth, long_tr_Qhat)
 
 #plotting
 
-ftotal_plot <- ggplot(fulltotal, aes(x=sample,y=Proportion,fill=Breed))+
+ftotal_plot <- ggplot(fulltotal[order(fulltotal$Breed),], aes(x=sample,y=Proportion,fill=Breed))+
   geom_bar(position='stack',stat='identity')+theme_bw()+facet_wrap(~group,nrow=2)+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1,size=12))+
-  scale_x_discrete(limits=clust$V1)
-ftotal_plot_breed <- ggplot(fulltotal, aes(x=sample,y=Proportion,fill=Breed,group=Breed))+
+  scale_x_discrete(limits=clust$V1[order(clust$V3)])
+ftotal_plot_breed <- ggplot(fulltotal[order(fulltotal$Breed),], aes(x=sample,y=Proportion,fill=Breed,group=Breed))+
   geom_bar(position='stack',stat='identity')+theme_bw()+facet_wrap(~group,nrow=2)+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1,size=12))+
-  scale_x_discrete(limits=clust$V1,label=newlabs)
+  scale_x_discrete(limits=clust$V1[order(clust$V3)],label=newlabs)
 ftotal_plot_breed
 ggsave("filt-bcftools-ref-redone.imputed.filteredQhatvTruth-Breed.png",width=24,height=6,units='in')
 ftotal_plot
@@ -121,12 +121,12 @@ for (samp in unique(fulltotal$sample)){
 stats_df <- merge(stats_df, sd_l_b,by='sample')
 write.table(stats_df,"filt-bcftools-ref-redone.imputed.filteredQhat-ReferenceRecovery.txt",row.names = F)
 
-differences <- ggplot(stats_df, aes(x=reorder(sample,desc(Correct)),y=Correct,fill=Breed))+geom_bar(stat='identity')+
-  theme_bw()+geom_errorbar(aes(ymin=Correct-sd, ymax=pmin(1,Correct+sd)), width=.1,
+differences <- ggplot(stats_df, aes(x=reorder(sample,desc(Correct)),y=1-Correct,fill=Breed))+geom_bar(stat='identity')+
+  theme_bw()+geom_errorbar(aes(ymin=pmax(1-Correct-sd,0), ymax=pmin(1,1-Correct+sd)), width=.05,
                            position=position_dodge(.9))+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1,size=8),
         panel.background = element_rect(fill = "white")) +labs(x='sample')+
-  scale_x_discrete(limits=clust$V1,label=newlabs)
+  scale_x_discrete(limits=clust$V1[order(clust$V3)],label=newlabs)
 ggsave('Differences.png',differences,width = 16,height=8,units = 'in')
 
 
@@ -203,8 +203,8 @@ ggsave("filt-bcftools-ref-redone.imputed.filtered-UMAP-text.png",height = 9,widt
 
 
 #distribution violin plots
-setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')
-distfiles <- list.files(path = "setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\')", pattern="*-pre2.txt*", full.names = FALSE, no.. = TRUE)
+setwd('C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\pretwo')
+distfiles <- list.files(path = "C:\\Users\\gkisl\\Downloads\\Dog WGS - Pellegrini\\pretwo", pattern="*-pre2.txt*", full.names = FALSE, no.. = TRUE)
 
 distances <- data.frame(matrix(NA, nrow = 2500, ncol = 0))
 for(file in distfiles){
