@@ -15,7 +15,7 @@ getSNPs.sh is used to find the breed-specific SNPs and needs the reference popul
 + getSNPs_helper.sh, getS.R, and getHM.R are helper files for getSNPs.sh which help to parallelize each breed's process, generate the distribution plots, and heatmaps using breed-specific SNPs, respectively. <br />
 
 ### SCRIPT FOR GENERATING SYNTHETIC SAMPLES <br />
-make-synthetic-bcf.sh is used and takes arguments N (desired number of samples to choose), clust (a clusters file), and id (use aaaa, this just serves as a placeholder for analysis after merging) <br />
+synth_helper.sh is used and takes arguments N (desired number of samples to choose), clust (a clusters file), and id (use aaaa, this just serves as a placeholder for analysis after merging) <br />
 
 ### SCRIPTS FOR ANALYSIS
 synth-FINALPROC.sh and fst-FINALPROC-final.sh are used for submitting jobs, similar to loop.sh. 
