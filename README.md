@@ -20,7 +20,7 @@ make-synthetic-bcf.sh is used and takes arguments N (desired number of samples t
 ### SCRIPTS FOR ANALYSIS
 synth-FINALPROC.sh and fst-FINALPROC-final.sh are used for submitting jobs, similar to loop.sh. 
 They take a text file with samples (full path to forward read of sample fastq - even if you're starting from bcf like for synthetic files, just change .bcf.gz to _1.fastq.gz) on each line. 
-+ proc1-pca-mergefirst-final.sh is used by fst-FINALPROC-final.sh to analyze the non-synthetic samples
-+ proc1-pca-synth-final.sh is used by synth-FINALPROC.sh to analyze synthetic bcf samples made by make-synthetic-bcf.sh
++ newapproach-mergefirst-abr-final.sh is used by fst-FINALPROC-final.sh to analyze the non-synthetic samples
++ newapproach-synth-final.sh is used by synth-FINALPROC.sh to analyze synthetic bcf samples made by make-synthetic-bcf.sh
 bootSCOPE.sh and bootSCOPE_helper.sh were used to bootstrap standard deviations for the prediction of breeds within the reference population
 + bootSCOPE_helper.sh does most of the heavy lifting, bootSCOPE.sh is used for job submission. 
