@@ -3,13 +3,12 @@
 loop.sh was used to submit jobs to the UCLA Hoffman cluster <br />
 + it takes a list of forward read fastq files with suffix _1.fastq.gz 
 + makebcf.sh performs bwa alignment 
-+ makebcf2.sh maps and identifies variants, as well as to generate PLINK files for merging <br />
++ makebcf2_allvars_mv.sh maps and identifies variants, as well as to generate PLINK files for merging <br />
 
 cleannbcf.sh is used to normalize bcf.gz files and set stable variant ids <br />
 
 mergebcfs_with_bcftools_final.sh is used to merge bcf.gz files <br />
 + it takes a list of bcf.gz files to merge in one step (change within script) <br />
-+ missing genotypes stay missing (-0 tag not used) <br />
 
 ### SCRIPTS FOR GETTING BREED SPECIFIC SNPS <br />
 getSNPs.sh is used to find the breed-specific SNPs and needs the reference population and a cluster file as arguments. <br />
