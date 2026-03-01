@@ -1,2 +1,22 @@
 Data for Figures:
-Figure 1: 
+Figure 1: Contained in pretwo.zip, processed with procQhat_new.R (output is named modFSTdistributions.png in procQhat_new.R)
+Figure 2: Made with frequency file from the reference genome. To generate, convert the bcf.gz file in the previous directory:
+plink -bcf QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350.bcf.gz --chr-set 38 -make-bed --allow-extra-chr --out QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350
+plink -bfile QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350 --chr-set 38 --allow-extra-chr --freq -within EXP-G-corrected-clust.txt -out QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350
+Then run make_big_HM.R
+Figure 3: Data is  QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350.rel and QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350.rel.id, process with redonePCA.R to make 
+QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350-UMAP-CORRECTEDtext.png. Make sure you use the corrected cluster file (EXP-G-corrected-clust.txt) as well. 
+Figure 4: Data is both from QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350Qhat.txt and QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350.fam, as well as bootstrapping.zip, processed with procQhat_new.R to make
+file called QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350Boot.png
+Figure 5: The data is in synth.zip and processed with process_outfiles.R to make synthplot.png
+Figure 6: The data is in downsampled.zip and processed with process_outfiles.R to make downsampledplot.png
+
+Supplementary Figures
+S.F. 1-3: Same as Figure 3 except wtih  QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-2500SNPs_FST0.350Qhat.txt, QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-1000SNPs_FST0.350Qhat.txt, 
+and QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-500kSNPs_FST0.350Qhat.txt 
+S.F. 4: Same as Figure 3 except use QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-FST0.350Qhat.txt and EXP-G-clust.txt (the uncorrected cluster file). 
+S.F. 5: Same as S.F. 4 but with the corrected cluster file
+S.F. 6: Made with QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350.eigenvec using redonePCA.R to make SF6_ QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350_PCA_CORRECTEDnotext.png
+S.F. 7: Made with QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350.dist and QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350.dist.id using redonePCA.R to make 
+QUAL20-0-G-MAF0.01-GENO0.2-LD250_50_0.8-10kSNPs_FST0.350-FST0.350-phylocircle-breed.png
+
